@@ -1,4 +1,4 @@
-%md
+
 # Patient Churn Prediction Workspace
 
 ## Overview
