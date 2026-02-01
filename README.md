@@ -30,7 +30,7 @@ This workspace implements a full pipeline for predicting patient churn using Dat
 * `patient_churn_prediction.patient_data.churn_data`
 
 * [Watch Presentation Video](https://youtu.be/KXz8nO0grDg?si=a8-l1mNOpWITYkfC)
-* [Linkedin Profile](www.linkedin.com/in/sridharccc)
+* [Linkedin Profile](www.linkedin.com/in/sridhar-chandrasekaran-07876996)
 
 ## Dependencies
 * Databricks Runtime (Serverless cluster)
