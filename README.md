@@ -10,8 +10,8 @@ This workspace implements a full pipeline for predicting patient churn using Dat
 * **Gold Stage**: Model inference is performed on silver data, generating churn scores and risk segments, saved in the `gold_patients` table.
 
 ## Model Training & Inference
-* Model is trained and logged using MLflow (see `ml_train` notebook).
-* Inference is performed in the `gold` notebook:
+* Model is trained and logged using MLflow (see [ml_train](notebooks/ml_train.ipynb) notebook).
+* Inference is performed in the [gold](notebooks/gold.ipynb) notebook:
   * Loads the latest model from MLflow Registry.
   * Applies the model to silver patient data.
   * Calculates churn probability and assigns risk segments.
