@@ -1,0 +1,414 @@
+{
+  "datasets": [
+    {
+      "name": "faff9466",
+      "displayName": "basic",
+      "queryLines": [
+        "SELECT\r\n",
+        "  COUNT(`PatientID`) AS Total_Patients,\r\n",
+        "  AVG(`Churn_Score`) AS Average_Churn_Risk,\r\n",
+        "  COUNT(\r\n",
+        "    CASE\r\n",
+        "      WHEN `Risk_Segment` = 'Very High Risk' THEN 1\r\n",
+        "    END\r\n",
+        "  ) AS Very_High_Risk\r\n",
+        "FROM\r\n",
+        "  `patient_churn_prediction`.`patient_data`.`gold_patients`"
+      ]
+    },
+    {
+      "name": "5f893556",
+      "displayName": "risk _segment distribution",
+      "queryLines": [
+        "SELECT\r\n",
+        "  `Risk_Segment`,\r\n",
+        "  COUNT(`PatientID`) AS Patient_Count\r\n",
+        "FROM\r\n",
+        "  `patient_churn_prediction`.`patient_data`.`gold_patients`\r\n",
+        "WHERE\r\n",
+        "  `Risk_Segment` IS NOT NULL\r\n",
+        "GROUP BY\r\n",
+        "  `Risk_Segment`"
+      ]
+    },
+    {
+      "name": "dc15d39f",
+      "displayName": "gold_patients",
+      "queryLines": [
+        "SELECT * FROM patient_churn_prediction.patient_data.gold_patients"
+      ]
+    },
+    {
+      "name": "e8e06933",
+      "displayName": "speciality_risk_assessment",
+      "queryLines": [
+        "SELECT\r\n",
+        "  `Specialty`,\r\n",
+        "  `Risk_Segment`,\r\n",
+        "  COUNT(`PatientID`) AS Patient_Count\r\n",
+        "FROM\r\n",
+        "  `patient_churn_prediction`.`patient_data`.`gold_patients`\r\n",
+        "WHERE\r\n",
+        "  `Specialty` IS NOT NULL\r\n",
+        "  AND `Risk_Segment` IS NOT NULL\r\n",
+        "GROUP BY\r\n",
+        "  `Specialty`,\r\n",
+        "  `Risk_Segment`"
+      ]
+    },
+    {
+      "name": "7df3fea8",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "SELECT \r\n",
+        "  Risk_Segment, \r\n",
+        "  COUNT(*) as Total_Patients, \r\n",
+        "  ROUND(AVG(Churn_Score), 2) as Avg_Risk,\r\n",
+        "  ROUND(AVG(Overall_Satisfaction), 2) as Avg_Satisfaction\r\n",
+        "FROM patient_churn_prediction.gold.patient_predictions\r\n",
+        "GROUP BY Risk_Segment\r\n",
+        "ORDER BY Avg_Risk DESC;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "e9471a03",
+      "displayName": "Demography",
+      "layout": [
+        {
+          "widget": {
+            "name": "total-patients",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "faff9466",
+                  "fields": [
+                    {
+                      "name": "sum(Total_Patients)",
+                      "expression": "SUM(`Total_Patients`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(Total_Patients)"
+                }
+              },
+              "frame": {
+                "title": "Total Patients",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "total-very-high-risk-patients",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "faff9466",
+                  "fields": [
+                    {
+                      "name": "sum(Very_High_Risk)",
+                      "expression": "SUM(`Very_High_Risk`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(Very_High_Risk)"
+                }
+              },
+              "frame": {
+                "title": "      Total Very High Risk Patients",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "average-churn-risk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "faff9466",
+                  "fields": [
+                    {
+                      "name": "avg(Average_Churn_Risk)",
+                      "expression": "AVG(`Average_Churn_Risk`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(Average_Churn_Risk)"
+                }
+              },
+              "frame": {
+                "title": "           Average Churn Risk",
+                "showTitle": true,
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "patient-count-per-risk-segment",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f893556",
+                  "fields": [
+                    {
+                      "name": "sum(Patient_Count)",
+                      "expression": "SUM(`Patient_Count`)"
+                    },
+                    {
+                      "name": "Risk_Segment",
+                      "expression": "`Risk_Segment`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(Patient_Count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "Risk_Segment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "title": "Patient Count per Risk Segment",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "ed08d597",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dc15d39f",
+                  "fields": [
+                    {
+                      "name": "Specialty",
+                      "expression": "`Specialty`"
+                    },
+                    {
+                      "name": "Churn_Score",
+                      "expression": "`Churn_Score`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "Specialty",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "Churn_Score",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "8090d173",
+      "displayName": "Churned results",
+      "layout": [
+        {
+          "widget": {
+            "name": "ade11ee3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "e8e06933",
+                  "fields": [
+                    {
+                      "name": "Risk_Segment",
+                      "expression": "`Risk_Segment`"
+                    },
+                    {
+                      "name": "Specialty",
+                      "expression": "`Specialty`"
+                    },
+                    {
+                      "name": "sum(Patient_Count)",
+                      "expression": "SUM(`Patient_Count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "Specialty",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(Patient_Count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "Risk_Segment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "title": "Patient count per specialty and risk segment",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 10
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#1F1B2E",
+        "dark": "#0C0B1D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#2A2442",
+        "dark": "#1B1833"
+      },
+      "widgetBorderColor": {
+        "light": "#5E5A80",
+        "dark": "#3F3B60"
+      },
+      "fontColor": {
+        "light": "#FDFDFD",
+        "dark": "#F5F5F5"
+      },
+      "selectionColor": {
+        "light": "#FF6EC7",
+        "dark": "#FF6EC7"
+      },
+      "visualizationColors": [
+        "#FF6EC7",
+        "#00FFF7",
+        "#BF00FF",
+        "#FF5F1F",
+        "#FFFF4D",
+        "#D9007F",
+        "#007FFF"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "applyModeEnabled": false
+  }
+}
