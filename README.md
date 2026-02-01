@@ -19,7 +19,7 @@ This workspace implements a full pipeline for predicting patient churn using Dat
   * Computes churn score statistics and saves to `churn_data` table.
 
 ## Usage Instructions
-1. Run the notebooks in order: `set_up` →  `ml_train` →  `synthetic_data` → `bronze` → `silver` → `gold`.
+1. Run the notebooks in order: [set_up](notebooks/set_up.ipynb) →  [ml_train](notebooks/ml_train.ipynb) →  [synthetic_data](notebooks/synthetic_data.ipynb) → [bronze](notebooks/bronze.ipynb) → [silver](notebooks/silver.ipynb) → [gold](notebooks/gold.ipynb).
 2. Ensure Unity Catalog volumes and tables exist as referenced in the code.
 3. Review outputs in the gold and churn_data tables for patient risk segmentation and churn analytics.
 
