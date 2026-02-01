@@ -29,7 +29,7 @@ This workspace implements a full pipeline for predicting patient churn using Dat
 * `patient_churn_prediction.patient_data.gold_patients`
 * `patient_churn_prediction.patient_data.churn_data`
 
-  ## Key Links
+## Key Links
 * [Watch Presentation Video](https://youtu.be/KXz8nO0grDg?si=a8-l1mNOpWITYkfC)
 * [Linkedin Post](https://www.linkedin.com/posts/sridharccc_databricks-mlops-healthtech-activity-7423617299909144576-KAGr?utm_source=share&utm_medium=member_desktop&rcm=ACoAABRm1xwBK7AB6LZiFyN_mKf0L9rvxLyPGLg)
 * [My linkedin Profile](https://www.linkedin.com/in/sridharccc/)
